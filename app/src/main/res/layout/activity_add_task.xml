@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".taskDetails.AddTaskActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Task Name Input -->
+            <EditText
+                android:id="@+id/etTaskName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Task Name"
+                android:inputType="text" />
+
+            <!-- Task Description Input -->
+            <EditText
+                android:id="@+id/etTaskDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description"
+                android:inputType="textMultiLine" />
+
+            <!-- Task Priority (Spinner) -->
+            <Spinner
+                android:id="@+id/spinnerPriority"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:entries="@array/priority_levels" />
+
+            <!-- Due Date Picker -->
+            <Button
+                android:id="@+id/btnPickDueDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Pick Due Date" />
+
+            <TextView
+                android:id="@+id/tvDueDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Date Selected"
+                android:layout_marginTop="8dp"
+                android:visibility="visible" />
+
+            <!-- Reminder Time Picker -->
+            <Button
+                android:id="@+id/btnPickReminderTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Pick Reminder Time" />
+
+            <TextView
+                android:id="@+id/tvReminderTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Time Selected"
+                android:layout_marginTop="8dp"
+                android:visibility="visible" />
+
+            <!-- Save Task Button -->
+            <Button
+                android:id="@+id/btnSaveTask"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Save Task" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

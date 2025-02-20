@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">ThingIsBeing</string>
+    <string name="_12_00am">12:00AM</string>
+    <string name="jan_december">Jan December</string>
+    <string name="ok">OK</string>
+    <string name="enter_something">Enter something...</string>
+    <string name="custom_dialog_title">Choose Your  Category</string>
+    <string-array name="priority_levels">
+        <item>Distributor</item>
+        <item>Senior Distributor</item>
+        <item>Ass. Director</item>
+        <item>Bronze Director</item>
+        <item>Silver Director</item>
+        <item>Gold Director</item>
+        <item>Star Director</item>
+        <item>Diamond Director</item>
+        <item>Crown Director</item>
+        <item>Crown Ambassador</item>
+        <item>Double Crown Ambassador</item>
+        <item>Universal Crown Ambassador</item>
+    </string-array>
+    <string-array name="status_options">
+        <item>Pending</item>
+        <item>In Progress</item>
+        <item>Completed</item>
+    </string-array>
+</resources>
