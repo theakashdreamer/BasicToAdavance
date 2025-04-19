@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_enable_bluetooth"
+        android:icon="@drawable/baseline_bluetooth_24"
+        android:title="Enable Bluetooth"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_discover_devices"
+        android:icon="@drawable/ic_discover"
+        android:title="Discover Devices"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_start_connection"
+        android:icon="@drawable/baseline_bluetooth_connected_24"
+        android:title="Start Connection"
+        app:showAsAction="always" />
+
+</menu>
