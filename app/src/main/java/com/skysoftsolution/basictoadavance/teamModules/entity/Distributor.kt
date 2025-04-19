@@ -5,11 +5,14 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "distributor_table")
 data class Distributor(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val name: String,
-    val cityName: String,
-    val mobileNumber: String,
-    val selectedLevel: String,
-    val distributorId: String,
-    var status: String
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    var name: String = "",
+    var cityName: String = "",
+    var mobileNumber: String = "",
+    var selectedLevel: String = "",
+    var distributorId: String = "",
+    var status: String = ""
 )
+
+
+

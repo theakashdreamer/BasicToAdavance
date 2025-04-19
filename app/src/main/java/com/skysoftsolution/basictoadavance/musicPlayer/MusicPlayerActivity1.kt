@@ -460,5 +460,4 @@ class MusicPlayerActivity1 : AppCompatActivity() {
             super.onBackPressed()
         }
     }
-
 }

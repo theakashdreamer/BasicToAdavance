@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.skysoftsolution.basictoadavance" />
+                  <option name="mobileSdkAppId" value="1:938467946606:android:12d1c82f264b2738d2f67f" />
+                  <option name="projectId" value="akashdreamer-1552e" />
+                  <option name="projectNumber" value="938467946606" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

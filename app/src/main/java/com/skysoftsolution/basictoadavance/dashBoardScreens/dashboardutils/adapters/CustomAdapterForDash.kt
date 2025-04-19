@@ -13,6 +13,8 @@ import com.skysoftsolution.basictoadavance.callingModule.CallingDashBoardActivit
 import com.skysoftsolution.basictoadavance.dashBoardScreens.callbacks.AdapterClickListener
 import com.skysoftsolution.basictoadavance.dashBoardScreens.dashboardutils.entity.DashBoardModule
 import com.skysoftsolution.basictoadavance.dashBoardScreens.entity.ModuleForUse
+import com.skysoftsolution.basictoadavance.eventManager.EventManageMentActivity
+import com.skysoftsolution.basictoadavance.goalModule.AlaramSetActivity
 import com.skysoftsolution.basictoadavance.goalModule.GoalDashBoardActivity
 import com.skysoftsolution.basictoadavance.goalModule.SetYourGoalActivity
 import com.skysoftsolution.basictoadavance.goalModule.TrackYourGoalActivity
@@ -21,6 +23,9 @@ import com.skysoftsolution.basictoadavance.omrSheet.OMRSheetActivity
 import com.skysoftsolution.basictoadavance.singnatureview.SignatureViewActivity
 import com.skysoftsolution.basictoadavance.taskDetails.AddTaskActivity
 import com.skysoftsolution.basictoadavance.teamModules.TeamMyActivity
+import com.skysoftsolution.basictoadavance.webRTC.AvailableDevicesActivity
+import com.skysoftsolution.basictoadavance.webRTC.WebRTCActivity
+import com.skysoftsolution.basictoadavance.webRTC.newWebRTCWork.NewWebRTCActivity
 
 
 class CustomAdapterForDash(
@@ -66,7 +71,7 @@ class CustomAdapterForDash(
                     context.startActivity(intent)
                 }
                 "2" -> {
-                    val intent = Intent(context, SetYourGoalActivity::class.java)
+                    val intent = Intent(context, AlaramSetActivity::class.java)
                     context.startActivity(intent)
                 }
                 "3" -> {
@@ -81,7 +86,7 @@ class CustomAdapterForDash(
                 }
                 "5" -> {
                     // Call TaskActivity when id is "1"
-                    val intent = Intent(context, MusicPlayerActivity1::class.java)
+                    val intent = Intent(context, EventManageMentActivity::class.java)
                     context.startActivity(intent)
                 }
                 "6" -> {
@@ -97,6 +102,16 @@ class CustomAdapterForDash(
                 "8" -> {
                     // Call TaskActivity when id is "1"
                     val intent = Intent(context, TrackYourGoalActivity::class.java)
+                    context.startActivity(intent)
+                }
+                "9" -> {
+                    // Call TaskActivity when id is "1"
+                    val intent = Intent(context, WebRTCActivity::class.java)
+                    context.startActivity(intent)
+                }
+                "10" -> {
+                    // Call TaskActivity when id is "1"
+                    val intent = Intent(context, NewWebRTCActivity::class.java)
                     context.startActivity(intent)
                 }
                 else -> {

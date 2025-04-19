@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">ThingIsBeing</string>
+    <string name="app_name">Basic To Advanced</string>
     <string name="_12_00am">12:00AM</string>
     <string name="jan_december">Jan December</string>
     <string name="ok">OK</string>
@@ -24,4 +24,6 @@
         <item>In Progress</item>
         <item>Completed</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

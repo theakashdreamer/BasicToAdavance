@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.BasicToAdavance" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorAccent">@color/color_Accent</item>
+        <item name="colorPrimary">@color/antique_white</item>
+        <item name="colorPrimaryDark">@color/alice_blue</item>
+        <item name="colorAccent">@color/beige</item>
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -14,37 +14,94 @@
     <style name="assessment_toolbar_style" parent="@style/Widget.AppCompat.Toolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:background">@color/color_Accent</item>
+        <item name="android:background">@color/azure</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="android:elevation">4dp</item>
     </style>
 
-    <style name="Theme.BasicToAdavance.NoActionBar">
+    <style name="Theme.BasicToAdavance.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Disable ActionBar -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <!-- Primary Purple -->
+        <item name="colorPrimary">#A259FF</item>
+        <item name="colorPrimaryVariant">#6C5CE7</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <!-- Secondary Mint -->
+        <item name="colorSecondary">#00FFB3</item>
+        <item name="colorSecondaryVariant">#00E6A8</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+
+        <!-- Background and Surface -->
+        <item name="android:colorBackground">#F3F0FF</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#333333</item>
+
+        <!-- Status Bar and Navigation Bar -->
+        <item name="android:statusBarColor">#74A259FF</item>
+        <item name="android:navigationBarColor">#EFEBF3</item>
     </style>
+
 
     <style name="Theme.BasicToAdavance.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.BasicToAdavance.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <!-- Base application theme -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary colors -->
-        <item name="colorPrimary">#4CAF50</item>
-        <item name="colorPrimaryVariant">#388E3C</item>
+        <!-- Primary: Light Purple -->
+        <item name="colorPrimary">#83A259FF</item>
+        <item name="colorPrimaryVariant">#8D6C5CE7</item>
         <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="android:statusBarColor">#5167A2</item>
-        <!-- Secondary colors -->
-        <item name="colorSecondary">#FFEB3B</item>
-        <item name="colorSecondaryVariant">#FBC02D</item>
-        <item name="colorOnSecondary">#000000</item>
 
-        <!-- Background and surface -->
-        <item name="colorOnError">#E8F5E9</item>
+        <!-- Secondary: Mint Green Accent -->
+        <item name="colorSecondary">#00FFB3</item>
+        <item name="colorSecondaryVariant">#00E6A8</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+
+        <!-- Background: Soft Lavender -->
+        <item name="android:colorBackground">#F3F0FF</item>
         <item name="colorSurface">#FFFFFF</item>
-        <item name="colorOnBackground">#000000</item>
-        <item name="colorOnSurface">#000000</item>
+        <item name="colorOnSurface">#333333</item>
+
+        <!-- Status Bar: Match purple background -->
+        <item name="android:statusBarColor">#95A259FF</item>
+
+        <!-- Navigation Bar: Light Purple -->
+        <item name="android:navigationBarColor">#4FA259FF</item>
+
+        <!-- Custom Text Colors -->
+        <item name="android:textColorPrimary">#333333</item>
+        <item name="android:textColorSecondary">#777777</item>
+    </style>
+
+    <style name="AppThemeDarkAction" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary color: Light Purple -->
+        <item name="colorPrimary">#7AA259FF</item>
+        <item name="colorPrimaryVariant">#6B6C5CE7</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <!-- Secondary color: Mint Accent -->
+        <item name="colorSecondary">#00FFB3</item>
+        <item name="colorSecondaryVariant">#00E6A8</item>
+        <item name="colorOnSecondary">#2E1F1F</item>
+
+        <!-- Background and Surface -->
+        <item name="android:colorBackground">#F3F0FF</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#333333</item>
+
+        <!-- Status Bar -->
+        <item name="android:statusBarColor">#81A259FF</item>
+
+        <!-- Navigation Bar -->
+        <item name="android:navigationBarColor">#00A259FF</item>
+
+        <!-- Custom Text Colors -->
+        <item name="android:textColorPrimary">#333333</item>
+        <item name="android:textColorSecondary">#777777</item>
+
     </style>
 
 
