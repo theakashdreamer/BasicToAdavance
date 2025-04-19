@@ -60,7 +60,10 @@ interface DataAccessObj {
     @Query("SELECT * FROM event_reminders ORDER BY eventTime ASC")
     fun getAllReminders(): LiveData<List<EventReminder>>
 
-    @Query("SELECT * FROM event_reminders WHERE eventTime >= DATE('now') ORDER BY eventTime asc")
+/*    @Query("SELECT * FROM event_reminders WHERE eventTime >= DATE('now') ORDER BY eventTime asc")
+    fun getAllUpComingReminders(): LiveData<List<EventReminder>>*/
+
+    @Query("SELECT * FROM event_reminders  ORDER BY eventTime asc")
     fun getAllUpComingReminders(): LiveData<List<EventReminder>>
 
     @Query("SELECT * FROM event_reminders WHERE id = :id")

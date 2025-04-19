@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
+import com.google.firebase.firestore.FirebaseFirestore
 import com.skysoftsolution.basictoadavance.R
 import com.skysoftsolution.basictoadavance.databinding.ActivityEventManageMentBinding
 import com.skysoftsolution.basictoadavance.databinding.CustomEventAddDetailsLayoutBinding
@@ -41,6 +42,7 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostio
     private var scrollHandler: Handler? = null
     private var scrollRunnable: Runnable? = null
     private var currentPosition = 0
+    val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventManageMentBinding.inflate(layoutInflater)
@@ -48,11 +50,18 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostio
         if (getSupportActionBar() != null) {
             getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
         }
+        setupActionBar("Events", true)
         setupRecyclerViewUpcomingEvent()
         setupRecyclerView()
         setupViewModel()
         setupFABActions()
         observeEventReminder()
+    }
+    private fun setupActionBar(title: String, showBackButton: Boolean = false) {
+        supportActionBar?.apply {
+            this.title = title
+            setDisplayHomeAsUpEnabled(showBackButton)
+        }
     }
     private fun setupViewModel() {
         dataAccessObj = DataBaseCreator.getInstance(this).dataAccessObj
@@ -144,12 +153,7 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostio
         menuInflater.inflate(R.menu.menu_search, menu)
         return true
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_search -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+
     private fun showAddEventDialog() {
         val dialogBinding = CustomEventAddDetailsLayoutBinding.inflate(layoutInflater)
         val alertDialog = AlertDialog.Builder(this)
@@ -170,6 +174,16 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostio
 
         dialogBinding.btnSubmit.setOnClickListener {
             val event = getEventFromInput(dialogBinding)
+          /*  event?.let {
+                db.collection("events_for_training")  // Name of collection
+                    .add(it)
+                    .addOnSuccessListener {
+                        Toast.makeText(dialogBinding.root.context, "events saved!", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(dialogBinding.root.context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }*/
             if (event != null) {
                 eventViewModel.insertEventReminder(event)
                 alertDialog.dismiss()
@@ -216,5 +230,16 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostio
 
     override fun onSwitchStatusChanged(distributor: EventReminder, isActive: Boolean) {
         TODO("Not yet implemented")
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_search -> true
+            android.R.id.home -> {
+                finish()  // Handles back button on ActionBar
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
