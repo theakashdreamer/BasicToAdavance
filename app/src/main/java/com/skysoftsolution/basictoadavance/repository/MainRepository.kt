@@ -69,7 +69,9 @@ class MainRepository() {
         dataAccessObj?.insertReminder(distributor) // Insert operation
     }
 
-
+    fun deleteAllEventReminder() {
+        dataAccessObj?.deleteAllEventReminder()
+    }
     fun getActiveEventReminder(): List<EventReminder> {
         return dataAccessObj!!.getActiveEventReminder()
     }

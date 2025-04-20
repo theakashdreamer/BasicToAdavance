@@ -1,5 +1,4 @@
 package com.skysoftsolution.basictoadavance.eventManager
-
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
@@ -21,9 +21,11 @@ import com.skysoftsolution.basictoadavance.datasource.DataAccessObj
 import com.skysoftsolution.basictoadavance.eventManager.adapter.EventManagerAdapter
 import com.skysoftsolution.basictoadavance.eventManager.adapter.UpcomingEventManagerAdapter
 import com.skysoftsolution.basictoadavance.eventManager.entity.EventReminder
+import com.skysoftsolution.basictoadavance.eventManager.utils.ReminderUtils
 import com.skysoftsolution.basictoadavance.eventManager.viewModel.EventViewModel
 import com.skysoftsolution.basictoadavance.repository.MainRepository
 import com.skysoftsolution.basictoadavance.teamModules.callbacks.AdapterClickEventSendPostion
+import com.skysoftsolution.basictoadavance.teamModules.entity.Distributor
 import com.skysoftsolution.basictoadavance.viewmodelfactory.MainViewModelFatcory
 import com.skysoftsolution.thingisbeing.datasource.DataBaseCreator
 import java.text.SimpleDateFormat
@@ -31,8 +33,6 @@ import java.util.Calendar
 import java.util.Collections
 import java.util.Date
 import java.util.Locale
-
-
 class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostion {
     private lateinit var binding: ActivityEventManageMentBinding
     private lateinit var dataAccessObj: DataAccessObj
@@ -54,6 +54,7 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostio
         setupRecyclerViewUpcomingEvent()
         setupRecyclerView()
         setupViewModel()
+        fetchDistributorsFromFirebase()
         setupFABActions()
         observeEventReminder()
     }
@@ -77,17 +78,30 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostio
         }
     }
 
+    private fun showProgress(show: Boolean) {
+        binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
+        binding.cardNoEventNoEvent.visibility = if (show) View.GONE else binding.cardNoEventNoEvent.visibility
+        binding.eventRecyclerView.visibility = if (show) View.GONE else binding.eventRecyclerView.visibility
+        binding.cardNoEvent.visibility = if (show) View.GONE else binding.cardNoEvent.visibility
+        binding.eventScheduleCardrecyclerView.visibility = if (show) View.GONE else binding.eventScheduleCardrecyclerView.visibility
+    }
 
     private fun observeEventReminder() {
+        showProgress(true)  // Start loader before fetching data
         eventViewModel.getAllEventReminder()?.observe(this) { events ->
-            adapter.updateData(events)
+            showProgress(false)  // Stop loader when data is loaded
+            if (events.isEmpty()) {
+                binding.cardNoEventNoEvent.visibility = View.VISIBLE
+                binding.eventRecyclerView.visibility = View.GONE
+            } else {
+                binding.cardNoEventNoEvent.visibility = View.GONE
+                binding.eventRecyclerView.visibility = View.VISIBLE
+                adapter.updateData(events)
+            }
         }
 
-      /*  eventViewModel.getAllUpComingReminders()?.observe(this) { events ->
-            adapterUpComing.updateData(events)
-        }*/
-
         eventViewModel.getAllUpComingReminders().observe(this) { events ->
+            showProgress(false)  // Stop loader if this is your main data
             val inputFormat = SimpleDateFormat("d/M/yyyy H:m", Locale.getDefault())
             val now = Date()
             val upcomingEvents = events.filter { event ->
@@ -100,14 +114,28 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostio
             }.sortedBy { event ->
                 inputFormat.parse(event.eventTime)
             }
-            adapterUpComing.updateData(upcomingEvents)
-            currentPosition = 0
-            startAutoScroll()
+            // Schedule alarms for all upcoming events
+            upcomingEvents.forEach { event ->
+                ReminderUtils.scheduleEventReminder11(this, event)
+            }
+            if (upcomingEvents.isEmpty()) {
+                binding.cardNoEvent.visibility = View.VISIBLE
+                binding.eventScheduleCardrecyclerView.visibility = View.GONE
+            } else {
+                binding.cardNoEvent.visibility = View.GONE
+                binding.eventScheduleCardrecyclerView.visibility = View.VISIBLE
+                adapterUpComing.updateData(upcomingEvents)
+                currentPosition = 0
+                startAutoScroll()
+            }
         }
+
         eventViewModel.filteredDistributors.observe(this) { events ->
+            showProgress(false)  // Stop loader if filtering too
             adapter.updateData(events)
         }
     }
+
 
     private fun setupRecyclerView() {
         adapter = EventManagerAdapter(Collections.emptyList(),this)
@@ -121,6 +149,24 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostio
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.eventScheduleCardrecyclerView)
         startAutoScroll()
+    }
+    private fun fetchDistributorsFromFirebase() {
+        binding.progressBar.visibility = View.VISIBLE  // Show progress
+        db.collection("events_for_training")
+            .get()
+            .addOnSuccessListener { result ->
+                eventViewModel.deleteAllEventReminder()
+                for (document in result) {
+                    val event = document.toObject(EventReminder::class.java)
+                    eventViewModel.insertEventReminder(event)
+                }
+                binding.progressBar.visibility = View.GONE
+                binding.llForUpcomingEvents.visibility = View.VISIBLE // Hide progress when done
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
+                binding.progressBar.visibility = View.GONE  // Hide progress on failure
+            }
     }
     private fun startAutoScroll() {
         scrollHandler = Handler(Looper.getMainLooper())
@@ -174,7 +220,7 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostio
 
         dialogBinding.btnSubmit.setOnClickListener {
             val event = getEventFromInput(dialogBinding)
-          /*  event?.let {
+            event?.let {
                 db.collection("events_for_training")  // Name of collection
                     .add(it)
                     .addOnSuccessListener {
@@ -183,7 +229,7 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostio
                     .addOnFailureListener { e ->
                         Toast.makeText(dialogBinding.root.context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
-            }*/
+            }
             if (event != null) {
                 eventViewModel.insertEventReminder(event)
                 alertDialog.dismiss()
@@ -216,7 +262,7 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickEventSendPostio
                 speakerName = etSpeakerName,
                 cityName = cityName,
                 eventTime =dateTime,
-                isRecurring = "1"
+                isRecurring =true
             )
         } else {
             Toast.makeText(dialogBinding.root.context, "Please fill out all required fields!", Toast.LENGTH_SHORT).show()

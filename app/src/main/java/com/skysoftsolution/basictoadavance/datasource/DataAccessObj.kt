@@ -49,7 +49,8 @@ interface DataAccessObj {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
      fun insertReminder(reminder: EventReminder): Long
 
-
+    @Query("DELETE FROM event_reminders")
+    fun deleteAllEventReminder()
 
     @Update
     fun updateReminder(reminder: EventReminder)

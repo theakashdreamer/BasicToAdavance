@@ -16,9 +16,9 @@
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_EXACT_ALARM" /> <!-- General Foreground Service Permission (Android 9+) -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- For exact alarm scheduling (Android 14+) -->
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" /> <!-- Foreground Service permission for alarm handling (Android 14+) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />

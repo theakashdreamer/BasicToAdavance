@@ -1,68 +1,91 @@
 package com.skysoftsolution.basictoadavance.goalModule.reciever
+
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.skysoftsolution.basictoadavance.R
-import com.skysoftsolution.basictoadavance.motiondetectorServic.MotionDetectService
+import com.skysoftsolution.basictoadavance.eventManager.EventManageMentActivity
 
 class AlarmReceiver : BroadcastReceiver() {
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onReceive(context: Context, intent: Intent?) {
-        if (intent?.action == Intent.ACTION_BOOT_COMPLETED) {
-            // Re-schedule all alarms on reboot
-            val serviceIntent = Intent(context, MotionDetectService::class.java)
-            context.startForegroundService(serviceIntent) // for Android 8+
-            RescheduleAlarms(context)
-        } else {
-            val serviceIntent = Intent(context, AlarmService::class.java)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(serviceIntent)
-            } else {
-                context.startService(serviceIntent)
+
+    companion object {
+        const val CHANNEL_ID = "EVENT_REMINDER_CHANNEL"
+        const val CHANNEL_NAME = "Event Reminders"
+    }
+
+    override fun onReceive(context: Context, intent: Intent) {
+        val notificationManager = createNotificationChannel(context)
+
+        when (intent.action) {
+            "com.skysoftsolution.EVENT_REMINDER" -> {
+                showEventNotification(context, intent, notificationManager)
             }
         }
     }
 
-    @SuppressLint("ScheduleExactAlarm")
-    private fun RescheduleAlarms(context: Context) {
-        // Reschedule all alarms here
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    private fun showEventNotification(context: Context, intent: Intent, notificationManager: NotificationManager) {
+        val eventTitle = intent.getStringExtra("title") ?: "Event Reminder"
+        val speaker = intent.getStringExtra("speaker") ?: "Speaker"
+        val timestamp = intent.getLongExtra("timestamp", System.currentTimeMillis())
 
-        val triggerTime = System.currentTimeMillis() + 60000 // Set time for the alarm
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
-    }
-    private fun showNotification(context: Context) {
-        val channelId = "alarm_channel"
-        val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.goalsetting) // Replace with your notification icon
-            .setContentTitle("Alarm Alert!")
-            .setContentText("It's time for your scheduled task.")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+        val notifyIntent = Intent(context, EventManageMentActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            timestamp.toInt(),  // Use unique ID
+            notifyIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.no_event_shedule)
+            .setContentTitle(eventTitle)
+            .setContentText("Speaker: $speaker")
+            .setStyle(NotificationCompat.BigTextStyle().bigText("Speaker: $speaker"))
+            .setColor(ContextCompat.getColor(context, R.color.colorSecondary))
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .build()
 
-        val notificationManager = NotificationManagerCompat.from(context)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (context.checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-                notificationManager.notify(1001, builder.build())
-            }
-        } else {
-            notificationManager.notify(1001, builder.build())
-        }
+        notificationManager.notify(timestamp.toInt(), notification)
     }
 
-    private fun playAlarmSound(context: Context) {
-        val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-        val ringtone = RingtoneManager.getRingtone(context, alarmSound)
-        ringtone.play()
+    @SuppressLint("NewApi")
+    private fun createNotificationChannel(context: Context): NotificationManager {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                enableVibration(true)
+                setShowBadge(true)
+                enableLights(true)
+                lightColor = ContextCompat.getColor(context, R.color.colorSecondary)
+                description = "Reminders for your scheduled events"
+                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+
+                val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                val audioAttributes = AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .build()
+                setSound(soundUri, audioAttributes)
+            }
+
+            notificationManager.createNotificationChannel(channel)
+        }
+        return notificationManager
     }
 }

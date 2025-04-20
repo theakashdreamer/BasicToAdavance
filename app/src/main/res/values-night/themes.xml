@@ -53,4 +53,42 @@
         <!-- ActionBar Text Color -->
         <item name="android:textColorPrimary">#FFFFFF</item>
     </style>
+    <style name="AppThemeDarkActionNew" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+
+        <!-- Primary Color: Deep Nebula Purple -->
+        <item name="colorPrimary">#6F42C1</item>
+        <item name="colorPrimaryVariant">#5A32A3</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <!-- Secondary Color: Cosmic Mint Glow -->
+        <item name="colorSecondary">#00FFC6</item>
+        <item name="colorSecondaryVariant">#00D1A0</item>
+        <item name="colorOnSecondary">#121212</item>
+
+        <!-- Background and Surface: Deep Space Black and Starfield Grey -->
+        <item name="android:colorBackground">#121212</item>
+        <item name="colorSurface">#1E1E2F</item>
+        <item name="colorOnSurface">#E0E0E0</item>
+
+        <!-- Status Bar: Dark Space Fade -->
+        <item name="android:statusBarColor">#1A0D33</item>
+
+        <!-- Navigation Bar: Nebula Purple Tint -->
+        <item name="android:navigationBarColor">#2D0F44</item>
+
+        <!-- Custom Text Colors: Soft Space Light -->
+        <item name="android:textColorPrimary">#E0E0E0</item>
+        <item name="android:textColorSecondary">#A0A0B2</item>
+
+        <!-- Optional: Divider Color and Highlight -->
+        <item name="colorControlHighlight">#00FFC630</item>
+
+
+    </style>
+    <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 </resources>

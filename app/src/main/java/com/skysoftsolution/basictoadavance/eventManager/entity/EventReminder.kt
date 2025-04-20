@@ -5,12 +5,11 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "event_reminders")
 data class EventReminder(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val title: String,
-    val speakerName: String?,
-    val cityName: String?,
-    val eventTime: String,
-    val isRecurring: String
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    var title: String = "",
+    var speakerName: String = "",
+    var cityName: String = "",
+    var eventTime: String = "",
+    var isRecurring: Boolean = false
 )
 

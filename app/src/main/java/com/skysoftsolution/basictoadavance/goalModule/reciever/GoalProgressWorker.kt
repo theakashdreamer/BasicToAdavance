@@ -12,7 +12,7 @@ class GoalProgressWorker(context: Context, params: WorkerParameters) : Worker(co
         val goalId = inputData.getInt("GOAL_ID", -1)
         if (goalId == -1) return Result.failure()
 
-        val goal = goalDao.getGoalById(goalId) ?: return Result.failure()
+   /*     val goal = goalDao.getGoalById(goalId) ?: return Result.failure()
 
         if (goal.progress < 100) {
             // Reschedule the alarm
@@ -21,6 +21,7 @@ class GoalProgressWorker(context: Context, params: WorkerParameters) : Worker(co
         } else {
             // Goal completed, no need for alarm
             return Result.success()
-        }
+        }*/
+        return Result.success()
     }
 }

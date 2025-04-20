@@ -33,6 +33,15 @@ class EventViewModel (private val repository: MainRepository, application: Appli
     fun getAllUpComingReminders(): LiveData<List<EventReminder>> {
         return repository.getAllUpComingReminders()!!
     }
+    fun deleteAllEventReminder() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                repository.deleteAllEventReminder()
+            } catch (e: Exception) {
+                error.postValue("Failed to delete all: ${e.message}")
+            }
+        }
+    }
     fun insertEventReminder(distributor: EventReminder) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
