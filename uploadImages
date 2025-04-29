@@ -1,0 +1,69 @@
+    public void uploadImages(ResponseDataNew ptcResponse) {
+        ProgressDialog progressDialog = new ProgressDialog(NewRegistration_Activity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://sanjybipl.in/api/").client(client).addConverterFactory(GsonConverterFactory.create()).build();
+
+        ApiRequest apiService = retrofit.create(ApiRequest.class);
+
+        List<MultipartBody.Part> fileParts = new ArrayList<>();
+
+        File file = new File(SourcefilePath1);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("files[]", file.getName(), requestFile);
+        fileParts.add(body);
+        File file1 = new File(SourcefilePath2);
+        RequestBody requestFile1 = RequestBody.create(MediaType.parse("application/octet-stream"), file1); // Use file1 here
+        MultipartBody.Part body1 = MultipartBody.Part.createFormData("files[]", file1.getName(), requestFile1);
+        fileParts.add(body1);
+
+        Call<FileUpload> call = apiService.uploadFiles(fileParts);
+        try {
+            call.enqueue(new Callback<FileUpload>() {
+                @Override
+                public void onResponse(Call<FileUpload> call, Response<FileUpload> response) {
+                    progressDialog.dismiss();
+                    if (response.isSuccessful()) {
+                        if (response.body() != null && response.body().getSuccess() != null && response.body().getSuccess().contains("true")) {
+                            dataSource.open();
+                            dataSource.insertEmployeeDetailsNew(ptcResponse.getData(), "true");
+                            dataSource.close();
+
+                            DatabaseHelper databaseHelper = new DatabaseHelper(NewRegistration_Activity.this);
+                            try {
+                                databaseHelper.createDatabse();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            databaseHelper.openDataBase();
+                            databaseHelper.insertEmployeeDetailsNew(ptcResponse.getData(), "true");
+                            databaseHelper.closeDataBase();
+
+                            Toast.makeText(NewRegistration_Activity.this, "Registration Successfully", Toast.LENGTH_SHORT).show();
+
+                            Intent intent1 = new Intent(NewRegistration_Activity.this, DashBoardActivity.class);
+                            startActivity(intent1);
+                            finish();
+
+                        } else {
+                            Toast.makeText(NewRegistration_Activity.this, response.body().getMessage() != null ? response.body().getMessage() : "Error Uploading", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(NewRegistration_Activity.this, "Try Again", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FileUpload> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Toast.makeText(NewRegistration_Activity.this, "Server Error : ", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            e.printStackTrace();
+        }
+    }
