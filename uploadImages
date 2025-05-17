@@ -1,4 +1,6 @@
-    public void uploadImages(ResponseDataNew ptcResponse) {
+
+https://theakashdreamer.github.io/
+public void uploadImages(ResponseDataNew ptcResponse) {
         ProgressDialog progressDialog = new ProgressDialog(NewRegistration_Activity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
