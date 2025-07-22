@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- For Android 13 and above -->
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
+    <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <application
+        android:name=".utility.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppThemeSunrise"
+        tools:targetApi="31">
+        <activity
+            android:name=".motiondetectorService.WarningActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SensorActivityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newFaceWork.cameraUtils.CameraActivity"
+            android:exported="false"
+            android:theme="@style/AppThemeSunrise" />
+        <activity
+            android:name=".newFaceWork.cameraUtils.DetectorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newFaceWork.CaptureNewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".eventManager.EventManageMentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".webRTC.newWebRTCWork.NewWebRTCActivity"
+            android:exported="false" />
+        <activity
+            android:name=".webRTC.AvailableDevicesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".webRTC.WebRTCActivity"
+            android:exported="false" />
+        <activity
+            android:name=".goalModule.AlaramSetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".omrSheet.OMRSheetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".goalModule.TrackYourGoalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".goalModule.SetYourGoalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".callingModule.CallingDashBoardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".goalModule.GoalDashBoardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".singnatureview.SignatureViewActivity"
+            android:exported="false" /> <!-- Activities -->
+        <activity
+            android:name=".musicPlayer.MusicPlayerActivity1"
+            android:exported="false" />
+        <activity
+            android:name=".teamModules.TeamMyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".taskDetails.AddTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".dashBoardScreens.DashBoardScreen"
+            android:exported="false"
+            android:theme="@style/Theme.BasicToAdavance.NoActionBar" />
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.BasicToAdavance.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".callingModule.scheduler.WhatsAppBroadcastReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".goalModule.reciever.GoalReminderReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.skysoftsolution.GOAL_REMINDER" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".goalModule.reciever.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.skysoftsolution.basictoadavance" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".goalModule.reciever.AlarmService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+        <service
+            android:name=".motiondetectorServic.MotionDetectService"
+            android:exported="false" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.skysoftsolution.basictoadavance.files"
+            android:enabled="true"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            android:readPermission="com.skysoftsolution.READ_CONTENT"
+            android:writePermission="com.skysoftsolution.WRITE_CONTENT">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+    </application>
+
+</manifest>

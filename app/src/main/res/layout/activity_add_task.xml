@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".taskDetails.AddTaskActivity">
+
+    <!-- Background wave vector -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/wave" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        app:layout_anchorGravity="center"
+        android:layout_gravity="center"
+        android:foregroundGravity="center"
+        android:background="@drawable/progress_background">
+
+        <ProgressBar
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:indeterminate="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
+            android:tint="@color/purple_700"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Foreground content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:orientation="vertical">
+
+            <!-- Header Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:id="@+id/tv_classrooms"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Today"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/month_current"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:layout_height="wrap_content"
+                    android:text="January"
+                    tools:ignore="RtlHardcoded" />
+            </LinearLayout>
+
+            <!-- No Event Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardNoEventNoEvent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                app:cardCornerRadius="16dp"
+                android:minHeight="90dp"
+                app:cardElevation="6dp"
+                android:visibility="gone"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/imgNoEvent12"
+                        android:layout_width="100dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/no_event_shedule"
+                        android:contentDescription="No Event"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:id="@+id/tvNoEventText123"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No Routine Scheduled"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/darker_gray" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- RecyclerView for Events -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/event_recyclerView"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <!-- Floating Action Button -->
+    <TextView
+        android:id="@+id/tvSevenDayPlanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7 Days Planning"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/alice_blue"
+        android:gravity="end|bottom"
+        android:layout_marginVertical="45dp"
+        android:layout_marginEnd="89dp"
+        android:layout_gravity="end|bottom"
+        android:visibility="visible" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabShowSevenDays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        android:contentDescription="Show 7 Days Plan"
+        android:src="@drawable/ic_baseline_calendar_month_24"
+        app:backgroundTint="@color/seashell"
+        app:tint="#FF9800"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

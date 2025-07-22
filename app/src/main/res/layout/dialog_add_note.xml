@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/titleEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"/>
+
+    <EditText
+        android:id="@+id/contentEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Content"
+        android:layout_marginTop="8dp"/>
+
+
+    <EditText
+        android:id="@+id/timeToSet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/baseline_access_time_24"
+        android:hint="Time"
+        android:layout_marginTop="8dp"/>
+
+
+
+
+</LinearLayout>

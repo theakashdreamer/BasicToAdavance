@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".goalModule.SetYourGoalActivity">
+    <ImageView
+        android:id="@+id/draggableView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <!-- RecyclerView for displaying distributors -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_distributors"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/add_fab"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_distributor"/>
+
+    <!-- Floating Action Button for adding a new distributor -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/plus_icon"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Floating Action Button for adding an alarm -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_alarm_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:fabSize="normal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/add_fab"
+        app:layout_constraintEnd_toEndOf="@+id/add_fab"
+        app:layout_constraintStart_toStartOf="@+id/add_fab"
+        app:srcCompat="@drawable/baseline_access_time_24"/>
+
+    <TextView
+        android:id="@+id/add_alarm_action_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"
+        android:text="Add Alarm"
+        app:layout_constraintBottom_toBottomOf="@+id/add_alarm_fab"
+        app:layout_constraintEnd_toStartOf="@+id/add_alarm_fab"
+        app:layout_constraintTop_toTopOf="@+id/add_alarm_fab"/>
+
+    <!-- Floating Action Button for adding a person -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_person_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toTopOf="@+id/add_alarm_fab"
+        app:layout_constraintEnd_toEndOf="@+id/add_alarm_fab"
+        app:layout_constraintStart_toStartOf="@+id/add_alarm_fab"
+        app:srcCompat="@drawable/target"/>
+
+    <TextView
+        android:id="@+id/add_person_action_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Add Goal"
+        app:layout_constraintBottom_toBottomOf="@+id/add_person_fab"
+        app:layout_constraintEnd_toStartOf="@+id/add_person_fab"
+        app:layout_constraintTop_toTopOf="@+id/add_person_fab"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/background_card"
+        android:padding="10dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:text="you did it here !\nyou can manage\nyour alarm."
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/add_fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/background_card"
+            android:padding="10dp"
+            app:cardCornerRadius="20dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Alarm 1"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toStartOf="@+id/smStatus"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/smStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvTitle"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="0:00"
+                    android:textColor="@color/white"
+                    android:textSize="36sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

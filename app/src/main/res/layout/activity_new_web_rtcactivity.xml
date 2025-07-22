@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    tools:context=".webRTC.newWebRTCWork.NewWebRTCActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:id="@+id/llForDeviceConneted"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+
+        <Button
+            android:id="@+id/btnEnableBluetooth"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:text="Enable Bluetooth" />
+
+        <Button
+            android:id="@+id/btnDiscoverDevices"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:text="Discover Devices" />
+
+        <Button
+            android:id="@+id/btnStartConnection"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:text="Start WebRTC Over Bluetooth" />
+
+    </LinearLayout>
+    <!-- RecyclerView for Chat Messages -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewChat1"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/llForDeviceConneted"
+        android:layout_height="match_parent"
+        android:layout_above="@id/messageInput"
+        android:padding="10dp"
+        android:scrollbars="vertical" />
+    <!-- Message Input Area -->
+    <LinearLayout
+        android:id="@+id/messageInput12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@color/white">
+
+        <!-- Attachment Button -->
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_add"
+            android:padding="8dp"
+            android:layout_gravity="center_vertical" />
+
+        <!-- Message Input Field -->
+        <EditText
+            android:id="@+id/message_input12"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="Message"
+            android:background="@drawable/edittext_background"
+            android:padding="10dp"
+            android:textSize="16sp" />
+
+        <!-- Microphone Button (Shown when no text is entered) -->
+        <ImageView
+            android:id="@+id/mic_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_mic"
+            android:padding="8dp"
+            android:layout_gravity="center_vertical"
+            android:visibility="visible"/>
+
+        <!-- Send Button (Initially Hidden, Visible when text is entered) -->
+        <ImageView
+            android:id="@+id/btnSendMessage12"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_send"
+            android:padding="8dp"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"/>
+    </LinearLayout>
+</RelativeLayout>

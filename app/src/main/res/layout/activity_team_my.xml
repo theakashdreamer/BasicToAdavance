@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    tools:context=".teamModules.TeamMyActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/progress_background">
+
+        <ProgressBar
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:indeterminate="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
+            android:tint="@color/purple_700"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!-- RecyclerView for displaying distributors -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_distributors"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_distributor"/>
+
+    <!-- Floating Action Button for adding a new distributor -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/plus_icon"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    <!-- Floating Action Button for adding a person -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_person_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toTopOf="@+id/add_fab"
+        app:layout_constraintEnd_toEndOf="@+id/add_fab"
+        app:layout_constraintStart_toStartOf="@+id/add_fab"
+        app:srcCompat="@drawable/ic_baseline_person_24"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    tools:context=".goalModule.AlaramSetActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner"/>
+
+        <Button
+            android:id="@+id/btnSetAlarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Alarm"
+            android:layout_marginTop="20dp"/>
+        <Button
+            android:id="@+id/btnRemoveAlarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove Alarm"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

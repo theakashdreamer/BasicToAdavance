@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/dp_20"
+    tools:context=".SensorActivityActivity">
+
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_height="wrap_content"
+        android:text="Shake your phone!"
+        android:textSize="20sp"
+        android:padding="16dp"
+        android:gravity="center"
+        android:background="#EEEEEE" />
+    <SeekBar
+        android:id="@+id/sensitivitySeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="2"
+        android:layout_margin="16dp"
+     />
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#F5F5F5"/>
+</LinearLayout>

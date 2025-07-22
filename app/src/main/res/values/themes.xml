@@ -1,0 +1,179 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.BasicToAdavance" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/antique_white</item>
+        <item name="colorPrimaryDark">@color/alice_blue</item>
+        <item name="colorAccent">@color/beige</item>
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
+    <style name="assessment_toolbar_style" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@color/azure</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <style name="Theme.BasicToAdavance.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Disable ActionBar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- Primary: Sunrise Gold -->
+        <item name="colorPrimary">#FFA726</item> <!-- Vibrant orange -->
+        <item name="colorPrimaryVariant">#FB8C00</item> <!-- Deep sunset orange -->
+        <item name="colorOnPrimary">#000000</item> <!-- Strong contrast for text -->
+
+        <!-- Secondary: Morning Sky Blue -->
+        <item name="colorSecondary">#29B6F6</item> <!-- Clear morning blue -->
+        <item name="colorSecondaryVariant">#0288D1</item> <!-- Deep sky -->
+        <item name="colorOnSecondary">#FFFFFF</item> <!-- White text on blue -->
+
+        <!-- Background and Surface: Light and uplifting -->
+        <item name="android:colorBackground">#FFF8E1</item> <!-- Soft morning light -->
+        <item name="colorSurface">#FFFFFF</item> <!-- Clean white for cards -->
+        <item name="colorOnSurface">#333333</item> <!-- Deep grey for readable text -->
+
+        <!-- Status Bar: Deep Orange for sunrise feeling -->
+        <item name="android:statusBarColor">#FB8C00</item>
+
+        <!-- Navigation Bar: Light Sky Tone -->
+        <item name="android:navigationBarColor">#FFE0B2</item> <!-- Light peach -->
+
+    </style>
+
+
+    <style name="Theme.BasicToAdavance.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.BasicToAdavance.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary: Light Purple -->
+        <item name="colorPrimary">#83A259FF</item>
+        <item name="colorPrimaryVariant">#8D6C5CE7</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <!-- Secondary: Mint Green Accent -->
+        <item name="colorSecondary">#00FFB3</item>
+        <item name="colorSecondaryVariant">#00E6A8</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+
+        <!-- Background: Soft Lavender -->
+        <item name="android:colorBackground">#F3F0FF</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#333333</item>
+
+        <!-- Status Bar: Match purple background -->
+        <item name="android:statusBarColor">#95A259FF</item>
+
+        <!-- Navigation Bar: Light Purple -->
+        <item name="android:navigationBarColor">#4FA259FF</item>
+
+        <!-- Custom Text Colors -->
+        <item name="android:textColorPrimary">#333333</item>
+        <item name="android:textColorSecondary">#777777</item>
+    </style>
+
+    <style name="AppThemeDarkAction" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary color: Light Purple -->
+        <item name="colorPrimary">#7AA259FF</item>
+        <item name="colorPrimaryVariant">#6B6C5CE7</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <!-- Secondary color: Mint Accent -->
+        <item name="colorSecondary">#00FFB3</item>
+        <item name="colorSecondaryVariant">#00E6A8</item>
+        <item name="colorOnSecondary">#2E1F1F</item>
+
+        <!-- Background and Surface -->
+        <item name="android:colorBackground">#F3F0FF</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#333333</item>
+
+        <!-- Status Bar -->
+        <item name="android:statusBarColor">#81A259FF</item>
+
+        <!-- Navigation Bar -->
+        <item name="android:navigationBarColor">#00A259FF</item>
+
+        <!-- Custom Text Colors -->
+        <item name="android:textColorPrimary">#333333</item>
+        <item name="android:textColorSecondary">#777777</item>
+
+    </style>
+
+    <style name="AppThemeDarkActionNew" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+
+        <!-- Primary Color: Deep Nebula Purple -->
+        <item name="colorPrimary">#6F42C1</item>
+        <item name="colorPrimaryVariant">#5A32A3</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <!-- Secondary Color: Cosmic Mint Glow -->
+        <item name="colorSecondary">#00FFC6</item>
+        <item name="colorSecondaryVariant">#00D1A0</item>
+        <item name="colorOnSecondary">#121212</item>
+
+        <!-- Background and Surface: Deep Space Black and Starfield Grey -->
+        <item name="android:colorBackground">#121212</item>
+        <item name="colorSurface">#1E1E2F</item>
+        <item name="colorOnSurface">#E0E0E0</item>
+
+        <!-- Status Bar: Dark Space Fade -->
+        <item name="android:statusBarColor">#1A0D33</item>
+
+        <!-- Navigation Bar: Nebula Purple Tint -->
+        <item name="android:navigationBarColor">#2D0F44</item>
+
+        <!-- Custom Text Colors: Soft Space Light -->
+        <item name="android:textColorPrimary">#E0E0E0</item>
+        <item name="android:textColorSecondary">#A0A0B2</item>
+
+        <!-- Optional: Divider Color and Highlight -->
+        <item name="colorControlHighlight">#00FFC630</item>
+
+
+    </style>
+
+    <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="AppThemeSunrise" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+
+        <!-- Primary: Sunrise Gold -->
+        <item name="colorPrimary">#FFB300</item> <!-- Warm golden yellow -->
+        <item name="colorPrimaryVariant">#FF8F00</item> <!-- Deep sunrise orange -->
+        <item name="colorOnPrimary">#000000</item> <!-- Black text for strong contrast -->
+
+        <!-- Secondary: Calm Sky Blue -->
+        <item name="colorSecondary">#29B6F6</item> <!-- Bright morning sky blue -->
+        <item name="colorSecondaryVariant">#0288D1</item> <!-- Deep sky blue -->
+        <item name="colorOnSecondary">#FFFFFF</item> <!-- White text for contrast -->
+
+        <!-- Background: Light Cloud Mist -->
+        <item name="android:colorBackground">#FFF3E0</item> <!-- Light peach background -->
+        <item name="colorSurface">#FFFFFF</item> <!-- Cards and surfaces bright white -->
+        <item name="colorOnSurface">#333333</item> <!-- Dark text for readability -->
+
+        <!-- Status Bar: Soft Sunrise Tint -->
+        <item name="android:statusBarColor">#FF8F00</item>
+
+        <!-- Navigation Bar: Golden Hue -->
+        <item name="android:navigationBarColor">#FFB300</item>
+
+        <!-- Text Colors -->
+        <item name="android:textColorPrimary">#222222</item>
+        <item name="android:textColorSecondary">#555555</item>
+
+    </style>
+    <!-- Base application theme. -->
+
+</resources>

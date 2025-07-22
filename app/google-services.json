@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "938467946606",
+    "project_id": "akashdreamer-1552e",
+    "storage_bucket": "akashdreamer-1552e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938467946606:android:12d1c82f264b2738d2f67f",
+        "android_client_info": {
+          "package_name": "com.skysoftsolution.basictoadavance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpoXkQxs0DJVYOueBXDvJ9m3701bHOrdM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938467946606:android:c0ff98150976078cd2f67f",
+        "android_client_info": {
+          "package_name": "com.skysoftsolution.basictoadvance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpoXkQxs0DJVYOueBXDvJ9m3701bHOrdM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

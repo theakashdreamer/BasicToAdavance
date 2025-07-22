@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/accountSwitcherLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_bottom_sheet_rounded"
+    android:padding="16dp">
+
+    <!-- Drag Handle -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:background="@drawable/bg_handle"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Account List -->
+    <LinearLayout
+        android:id="@+id/accountList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <!-- Add Instagram Account -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="12dp"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_add"
+            app:tint="@android:color/darker_gray" />
+
+        <TextView
+            android:layout_marginStart="12dp"
+            android:text="Add Instagram account"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            />
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0"
+        android:layout_marginVertical="8dp"/>
+
+    <!-- Facebook Profile Section -->
+    <TextView
+        android:text="Your Facebook profile"
+        android:textSize="14sp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="#888888"
+        android:layout_marginBottom="8dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_person_24" />
+
+        <TextView
+            android:layout_marginStart="12dp"
+            android:text="Somvansi Akash Singh"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <!-- Button -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to Accounts Center"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/blue_violet"
+        android:textColor="@android:color/white" />
+</LinearLayout>

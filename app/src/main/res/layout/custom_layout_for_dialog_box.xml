@@ -1,0 +1,39 @@
+<!-- custom_dialog_layout.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/rectangle_border_radius"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/custom_dialog_title"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+    <CheckBox
+        android:id="@+id/checkBox_Vegetable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vegetable" />
+    <CheckBox
+        android:id="@+id/checkBox_Grocery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Grocery" />
+    <CheckBox
+        android:id="@+id/checkBox_Water"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Water Cost" />
+    <CheckBox
+        android:id="@+id/checkBox_Other"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Other" />
+
+</LinearLayout>

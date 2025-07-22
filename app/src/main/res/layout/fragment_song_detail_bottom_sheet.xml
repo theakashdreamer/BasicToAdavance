@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".musicPlayer.demoPackage.fragment.SongDetailBottomSheet"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/songTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Song Title"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/songArtist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Artist Name"
+        android:textSize="16sp"
+        android:textColor="#808080" />
+
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
