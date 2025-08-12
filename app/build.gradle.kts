@@ -176,4 +176,7 @@ dependencies {
 
     // 🔹 ML Kit Vision
     implementation("com.google.mlkit:vision-internal-vkp:18.2.3")
+
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.libraries.places:places:3.2.0")
 }

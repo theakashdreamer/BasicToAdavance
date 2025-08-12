@@ -13,7 +13,7 @@ import java.util.Locale
 
 class UpcomingEventManagerAdapter(
     private var events: List<EventReminder>,
-    private val listenerAdapterClickSendPostion: AdapterClickAddSendPostion
+    private var listenerAdapterClickSendPostion: AdapterClickAddSendPostion
 ) :
     RecyclerView.Adapter<UpcomingEventManagerAdapter.EventManagerViewHolder>() {
 
@@ -25,10 +25,18 @@ class UpcomingEventManagerAdapter(
             binding.tvTitleUpcomingSpeakerName.text = events.speakerName
             binding.tvTitleUpcomingEventDateTime.text ="⏰ "+DateUtils.formatTime(events.eventTime)
             val targetDay = getDayName(events.eventTime)  // Get the day name from your date
+            binding.iVForDirection.setOnClickListener {
+                listenerAdapterClickSendPostion?.let { listener ->
+                    listener.onClickListenerEventReminder(events)
+                }
 
+            }
 
 
         }
+    }
+    fun setItemSelectionListener(listener: AdapterClickAddSendPostion) {
+        listenerAdapterClickSendPostion = listener
     }
 
     fun getDayName(inputDate: String): String {

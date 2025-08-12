@@ -1,93 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Name -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Title"
-        android:textSize="16sp"
-        android:paddingBottom="8dp" />
-    <EditText
-        android:id="@+id/etTitleName"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter name"
-        android:padding="12dp"
-        android:backgroundTint="#800080" />
+        android:layout_height="match_parent">
 
-    <!-- Mobile Number -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Speaker Name"
-        android:textSize="16sp"
-        android:paddingTop="12dp"
-        android:paddingBottom="8dp" />
-    <EditText
-        android:id="@+id/etSpeakerName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Speaker name"
-        android:padding="12dp"
-        android:backgroundTint="#800080" />
-
-    <!-- Mobile Number -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="City Name"
-        android:textSize="16sp"
-        android:paddingTop="12dp"
-        android:paddingBottom="8dp" />
-    <EditText
-        android:id="@+id/etCityNAme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter City Name"
-        android:padding="12dp"
-        android:backgroundTint="#800080"
-        android:inputType="text" />
-
-    <!-- WhatsApp Number -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date and Time"
-        android:textSize="16sp"
-        android:paddingTop="12dp"
-        android:paddingBottom="8dp" />
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Select Date and Time"
-        style="@style/Preference.DialogPreference.EditTextPreference"
-       >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etDateTime"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:inputType="none"
-            android:drawableEnd="@drawable/ic_baseline_calendar_month_24" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!-- Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:text="Title"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etTitleName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#800080"
+                android:hint="Enter name"
+                android:padding="12dp" />
+
+            <!-- Mobile Number -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingBottom="8dp"
+                android:text="Speaker Name"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etSpeakerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#800080"
+                android:hint="Enter Speaker name"
+                android:padding="12dp" />
+
+            <!-- Mobile Number -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingBottom="8dp"
+                android:text="City Name"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etCityNAme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#800080"
+                android:hint="Enter City Name"
+                android:inputType="text"
+                android:padding="12dp" />
+
+            <!-- WhatsApp Number -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingBottom="8dp"
+                android:text="Date and Time"
+                android:textSize="16sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Preference.DialogPreference.EditTextPreference"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Select Date and Time">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDateTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
+                    android:focusable="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Map Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingBottom="8dp"
+                android:text="Select Location"
+                android:textSize="16sp" />
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapViewDialog"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="12dp" />
+            <!-- Location Search -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Search Location">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSearchLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-    <!-- Submit Button -->
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        android:backgroundTint="#800080"
-        android:textColor="#FFFFFF"
-        android:padding="12dp"
-        android:layout_marginTop="16dp" />
+            <!-- Submit Button -->
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#800080"
+                android:padding="12dp"
+                android:text="Submit"
+                android:textColor="#FFFFFF" />
 
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

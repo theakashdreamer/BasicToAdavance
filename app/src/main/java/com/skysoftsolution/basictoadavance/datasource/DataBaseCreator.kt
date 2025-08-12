@@ -13,7 +13,7 @@ import com.skysoftsolution.basictoadavance.teamModules.entity.Distributor
 
 
 @Database(entities = [Distributor::class, GoalSetTrack::class, EventReminder::class,
-      AddDailyRoutine::class], version = 1, exportSchema = false)
+      AddDailyRoutine::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DataBaseCreator : RoomDatabase() {
     abstract val dataAccessObj: DataAccessObj

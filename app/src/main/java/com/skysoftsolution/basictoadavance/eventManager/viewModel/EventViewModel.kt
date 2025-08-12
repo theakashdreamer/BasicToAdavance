@@ -29,6 +29,9 @@ class EventViewModel (private val repository: MainRepository, application: Appli
     fun getAllEventReminder(): LiveData<List<EventReminder>> {
         return repository.getAllEventReminder()!!
     }
+    fun getRemindersSortedByNearest(query: String): LiveData<List<EventReminder>> {
+        return repository.getRemindersSortedByNearest(query)!!
+    }
 
     fun getAllUpComingReminders(): LiveData<List<EventReminder>> {
         return repository.getAllUpComingReminders()!!

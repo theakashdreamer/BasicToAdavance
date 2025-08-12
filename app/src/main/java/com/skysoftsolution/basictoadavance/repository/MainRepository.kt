@@ -63,6 +63,9 @@ class MainRepository() {
     /*TODO Event Work*/
 
     fun getAllEventReminder() = dataAccessObj?.getAllReminders()
+
+    fun getRemindersSortedByNearest(query: String) = dataAccessObj?.getRemindersSortedByNearest(query)
+
     fun getAllUpComingReminders() = dataAccessObj?.getAllUpComingReminders()
 
 

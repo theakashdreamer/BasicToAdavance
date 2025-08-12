@@ -63,8 +63,21 @@ interface DataAccessObj {
     @Delete
     fun deleteReminder(reminder: EventReminder)
 
-    @Query("SELECT * FROM event_reminders ORDER BY eventTime ASC")
+    @Query("SELECT * FROM event_reminders ORDER BY eventTime DESC")
     fun getAllReminders(): LiveData<List<EventReminder>>
+
+    @Query(
+        """
+SELECT * FROM event_reminders
+ORDER BY 
+    CASE 
+        WHEN eventTime >= :currentDateTime THEN 0
+        ELSE 1
+    END,
+    ABS(strftime('%s', eventTime) - strftime('%s', :currentDateTime))
+"""
+    )
+    fun getRemindersSortedByNearest(currentDateTime: String): LiveData<List<EventReminder>>
 
     /*    @Query("SELECT * FROM event_reminders WHERE eventTime >= DATE('now') ORDER BY eventTime asc")
         fun getAllUpComingReminders(): LiveData<List<EventReminder>>*/
@@ -97,8 +110,10 @@ interface DataAccessObj {
 
     @Delete
     fun deleteRoutine(routine: AddDailyRoutine)
+
     @Query("DELETE FROM daily_routines")
     fun deleteAlldaily_routines()
+
     @Query("SELECT * FROM daily_routines WHERE event_date LIKE :todayDate || '%' ORDER BY event_date ASC")
     fun getTodayRoutines(todayDate: String): LiveData<List<AddDailyRoutine>>
 
@@ -119,8 +134,8 @@ interface DataAccessObj {
 
     /*    @Query("SELECT * FROM daily_routines WHERE event_date BETWEEN :startDate AND :endDate ORDER BY event_date ASC")
         fun getRoutinesBetweenDates(startDate: Date, endDate: Date): LiveData<List<AddDailyRoutine>>*/
-/*    @Query("SELECT * FROM daily_routines WHERE event_date BETWEEN :startDate AND :endDate ORDER BY event_date ASC")
-    fun getRoutinesBetweenDates(startDate: Date, endDate: Date): LiveData<List<AddDailyRoutine>>*/
+    /*    @Query("SELECT * FROM daily_routines WHERE event_date BETWEEN :startDate AND :endDate ORDER BY event_date ASC")
+        fun getRoutinesBetweenDates(startDate: Date, endDate: Date): LiveData<List<AddDailyRoutine>>*/
     @Query("""SELECT * FROM daily_routines WHERE substr(created_at, 1, 10) BETWEEN :startDate AND :endDate ORDER BY event_date ASC""")
     fun getRoutinesBetweenDates(startDate: String, endDate: String): LiveData<List<AddDailyRoutine>>
 

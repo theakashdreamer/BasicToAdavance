@@ -1,6 +1,7 @@
 package com.skysoftsolution.basictoadavance.eventManager.adapter
 
 import android.graphics.Color
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,18 +10,27 @@ import com.skysoftsolution.basictoadavance.databinding.CustomLayoutForEventManag
 import com.skysoftsolution.basictoadavance.eventManager.entity.EventReminder
 import com.skysoftsolution.basictoadavance.teamModules.callbacks.AdapterClickAddSendPostion
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class EventManagerAdapter(
     private var events: List<EventReminder>,
-    private val listenerAdapterClickSendPostion: AdapterClickAddSendPostion
+    private var listenerAdapterClickSendPostion: AdapterClickAddSendPostion
 ) :
     RecyclerView.Adapter<EventManagerAdapter.EventManagerViewHolder>() {
-
     inner class EventManagerViewHolder(private val binding: CustomLayoutForEventManagementBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindDistributor(events: EventReminder, srNo: Int) {
+            val eventDate = try {
+                SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).parse(events.eventTime)
+            } catch (e: Exception) {
+                null
+            }
             binding.eventTitle.text = events.title
+            if (eventDate != null && eventDate.before(Date())) {
+                binding.eventTitle.setTextColor(Color.RED) // Past event
+                binding.eventTitle.paintFlags = binding.eventTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG // Strike-through
+            }
             binding.tvEventDate.text = formatDateTimeWithLineBreak(events.eventTime)
             binding.tvSpeakerName.text = events.speakerName
             binding.tvCityName.text = events.cityName
@@ -43,8 +53,15 @@ class EventManagerAdapter(
                     textView.setTextColor(Color.parseColor("#00FF00"))  // Default color
                 }
             }
+            binding.iVForDirection.setOnClickListener {
+                listenerAdapterClickSendPostion?.let { listener ->
+                    listener.onClickListenerEventReminder(events)
+                }
+
+            }
 
         }
+
     }
 
     fun getDayName(inputDate: String): String {
@@ -60,6 +77,10 @@ class EventManagerAdapter(
         }
     }
 
+    fun setItemSelectionListener(listener: AdapterClickAddSendPostion) {
+        listenerAdapterClickSendPostion = listener
+    }
+
     fun formatDateTimeWithLineBreak(inputDate: String): String {
         return try {
             val inputFormat = SimpleDateFormat("d/M/yyyy H:m", Locale.getDefault())
@@ -69,28 +90,6 @@ class EventManagerAdapter(
             val timePart = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(date)
 
             "$datePart\n$timePart"  // Line break here
-        } catch (e: Exception) {
-            inputDate
-        }
-    }
-
-    fun formatDate(inputDate: String): String {
-        return try {
-            val inputFormat = SimpleDateFormat("d/M/yyyy H:m", Locale.getDefault())
-            val date = inputFormat.parse(inputDate)
-
-            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date!!)
-        } catch (e: Exception) {
-            inputDate
-        }
-    }
-
-    fun formatTime(inputDate: String): String {
-        return try {
-            val inputFormat = SimpleDateFormat("d/M/yyyy H:m", Locale.getDefault())
-            val date = inputFormat.parse(inputDate)
-
-            SimpleDateFormat("hh:mm a", Locale.getDefault()).format(date!!)
         } catch (e: Exception) {
             inputDate
         }
