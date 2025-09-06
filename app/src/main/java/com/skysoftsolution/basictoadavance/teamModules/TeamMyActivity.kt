@@ -63,7 +63,7 @@ class TeamMyActivity : AppCompatActivity() ,AdapterClickSendPostion{
 
     private fun fetchDistributorsFromFirebase() {
         binding.progressBar.visibility = View.VISIBLE  // Show progress
-/*        db.collection("distributors")
+        db.collection("distributors")
             .get()
             .addOnSuccessListener { result ->
                 teamViewModel.deleteAllDistributors()
@@ -77,7 +77,7 @@ class TeamMyActivity : AppCompatActivity() ,AdapterClickSendPostion{
             .addOnFailureListener { exception ->
                 Toast.makeText(this, "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
                 binding.progressBar.visibility = View.GONE  // Hide progress on failure
-            }*/
+            }
         FirebaseFetchHelper.fetchDataIfNeeded<Distributor>(
             context = this,
             db = db,

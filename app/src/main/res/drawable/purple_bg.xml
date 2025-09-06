@@ -1,0 +1,21 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Solid purple background -->
+    <solid android:color="#800080" /> <!-- Or use @color/purple_500 -->
+
+    <!-- Optional border -->
+    <stroke
+        android:width="2dp"
+        android:color="#6A0DAD" /> <!-- Darker purple border -->
+
+    <!-- Rounded corners -->
+    <corners android:radius="10dp" />
+
+    <!-- Optional padding -->
+    <padding
+        android:left="12dp"
+        android:top="12dp"
+        android:right="12dp"
+        android:bottom="12dp" />
+</shape>

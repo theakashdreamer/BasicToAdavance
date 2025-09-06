@@ -6,4 +6,5 @@ interface AdapterClickAddSendPostion {
 
     fun onClickListenerEventReminder(events: EventReminder)
     fun onSwitchStatusChanged(events: EventReminder, isActive: Boolean)
+
 }

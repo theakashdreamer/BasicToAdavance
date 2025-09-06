@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.skysoftsolution.basictoadavance.callObserver.entity.CallLog
 import com.skysoftsolution.basictoadavance.eventManager.entity.EventReminder
 import com.skysoftsolution.basictoadavance.goalModule.entity.GoalSetTrack
 import com.skysoftsolution.basictoadavance.taskDetails.entity.AddDailyRoutine
@@ -138,5 +139,9 @@ ORDER BY
         fun getRoutinesBetweenDates(startDate: Date, endDate: Date): LiveData<List<AddDailyRoutine>>*/
     @Query("""SELECT * FROM daily_routines WHERE substr(created_at, 1, 10) BETWEEN :startDate AND :endDate ORDER BY event_date ASC""")
     fun getRoutinesBetweenDates(startDate: String, endDate: String): LiveData<List<AddDailyRoutine>>
+    @Insert
+     fun insertCallLog(callLog: CallLog)
 
+    @Query("SELECT * FROM call_logs ORDER BY timestamp DESC")
+     fun getAllLogs(): LiveData<List<CallLog>>
 }

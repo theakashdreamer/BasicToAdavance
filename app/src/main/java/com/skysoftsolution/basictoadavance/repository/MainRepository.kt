@@ -1,6 +1,7 @@
 package com.skysoftsolution.basictoadavance.repository
 
 import androidx.lifecycle.LiveData
+import com.skysoftsolution.basictoadavance.callObserver.entity.CallLog
 import com.skysoftsolution.basictoadavance.datasource.DataAccessObj
 import com.skysoftsolution.basictoadavance.eventManager.entity.EventReminder
 import com.skysoftsolution.basictoadavance.goalModule.entity.GoalSetTrack
@@ -137,6 +138,12 @@ class MainRepository() {
             throw Exception("Error updating distributor status: ${e.message}")
         }
     }
+
+    fun getAllCallLog() = dataAccessObj?.getAllLogs()
+    suspend fun insertCallLog(callLog: CallLog) {
+        dataAccessObj?.insertCallLog(callLog) // Insert operation
+    }
+
     /*    // Get completed routines
         fun getCompletedDailyRoutines(): LiveData<List<AddDailyRoutine>> {
             return dataAccessObj.getCompletedDailyRoutines()

@@ -3,6 +3,7 @@ package com.skysoftsolution.basictoadavance.viewmodelfactory
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.skysoftsolution.basictoadavance.callObserver.viewModel.CallDetailsViewModel
 import com.skysoftsolution.basictoadavance.eventManager.viewModel.EventViewModel
 import com.skysoftsolution.basictoadavance.goalModule.viewModel.SetYourViewModel
 import com.skysoftsolution.basictoadavance.repository.MainRepository
@@ -31,6 +32,9 @@ class MainViewModelFatcory() : ViewModelProvider.Factory {
         }
         if (modelClass.isAssignableFrom(AddTaskViewModel::class.java)) {
             return AddTaskViewModel(repository, application) as T
+        }
+        if (modelClass.isAssignableFrom(CallDetailsViewModel::class.java)) {
+            return CallDetailsViewModel(repository, application) as T
         }
         throw IllegalArgumentException("Unknown View Model Class")
     }

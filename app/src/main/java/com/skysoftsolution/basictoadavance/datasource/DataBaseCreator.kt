@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.skysoftsolution.basictoadavance.callObserver.entity.CallLog
 import com.skysoftsolution.basictoadavance.datasource.DataAccessObj
 import com.skysoftsolution.basictoadavance.eventManager.entity.EventReminder
 import com.skysoftsolution.basictoadavance.goalModule.entity.Converters
@@ -13,7 +14,8 @@ import com.skysoftsolution.basictoadavance.teamModules.entity.Distributor
 
 
 @Database(entities = [Distributor::class, GoalSetTrack::class, EventReminder::class,
-      AddDailyRoutine::class], version = 2, exportSchema = false)
+    CallLog::class,
+      AddDailyRoutine::class], version = 5, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DataBaseCreator : RoomDatabase() {
     abstract val dataAccessObj: DataAccessObj

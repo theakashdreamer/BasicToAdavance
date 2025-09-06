@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".documentViewer.DocumentViewerActivity">
+    <!-- res/layout/activity_document_viewer.xml -->
+    <LinearLayout
+        android:id="@+id/root"
+        android:orientation="vertical"
+        android:background="#101113"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Top bar -->
+        <LinearLayout
+            android:padding="12dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvTitle"
+                android:text="Document"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tvPage"
+                android:text="1/1"
+                android:textColor="#A0A0A0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Viewer area with zoom/pan -->
+        <FrameLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <com.skysoftsolution.basictoadavance.documentViewer.helperClasses.ZoomableImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/app_name"
+                android:adjustViewBounds="true"/>
+        </FrameLayout>
+
+        <!-- Controls -->
+        <LinearLayout
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/btnPrev"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@android:drawable/ic_media_previous"
+                android:background="@android:color/transparent"
+                android:contentDescription="Previous"
+                app:tint="#FFFFFF" />
+            <SeekBar
+                android:id="@+id/seekPage"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+            <ImageButton
+                android:id="@+id/btnNext"
+                android:src="@android:drawable/ic_media_next"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                app:tint="#FFFFFF"
+                android:contentDescription="Next"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

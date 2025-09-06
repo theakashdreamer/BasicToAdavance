@@ -1,0 +1,169 @@
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.Build
+import android.os.Bundle
+import android.telephony.TelephonyManager
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+
+class Call_Observer_Activity : AppCompatActivity() {
+
+    private lateinit var callStateReceiver: CallStateReceiver
+    private lateinit var statusTextView: TextView
+    private lateinit var detailsTextView: TextView
+
+    private val callStatusReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val number = intent?.getStringExtra("phone_number") ?: "Unknown"
+            val duration = intent?.getLongExtra("call_duration", 0) ?: 0
+
+            when (intent?.action) {
+                "OUTGOING_CALL_STARTED" -> {
+                    updateUI("Outgoing Call Started", "Dialing: $number")
+                    showToast("Calling: $number")
+                }
+                "CALL_CONNECTED" -> {
+                    updateUI("Call Connected", "Connected to: $number")
+                    showToast("Call connected to: $number")
+                }
+                "CALL_NOT_ANSWERED" -> {
+                    updateUI("Call Not Answered", "Not answered by: $number")
+                    showToast("Call not answered by: $number")
+                }
+                "OUTGOING_CALL_COMPLETED" -> {
+                    val durationSec = duration / 1000
+                    updateUI("Call Completed", "Duration: ${durationSec}s with: $number")
+                    showToast("Call completed. Duration: ${durationSec}s")
+                }
+                "INCOMING_CALL_RINGING" -> {
+                    updateUI("Incoming Call", "Ringing from: $number")
+                }
+                "CALL_ANSWERED" -> {
+                    updateUI("Call Answered", "Answered call from: $number")
+                }
+                "MISSED_CALL" -> {
+                    updateUI("Missed Call", "Missed call from: $number")
+                    showToast("Missed call from: $number")
+                }
+                "INCOMING_CALL_ENDED" -> {
+                    val durationSec = duration / 1000
+                    updateUI("Call Ended", "Incoming call ended. Duration: ${durationSec}s")
+                }
+            }
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        if (permissions.all { it.value }) {
+            registerCallReceiver()
+            updateUI("Ready", "Call observer active. Make a call to test.")
+        } else {
+            showToast("Permissions denied. Call observation won't work.")
+            updateUI("Permission Denied", "Please grant phone permissions")
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_call_observer)
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        // Initialize UI components
+        statusTextView = findViewById(R.id.statusTextView)
+        detailsTextView = findViewById(R.id.detailsTextView)
+
+        // Request permissions
+        requestCallPermissions()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerCallStatusReceiver()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterCallStatusReceiver()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            unregisterReceiver(callStateReceiver)
+        } catch (e: Exception) {
+            // Receiver was not registered
+        }
+    }
+
+    private fun requestCallPermissions() {
+        val permissions = arrayOf(
+            android.Manifest.permission.READ_PHONE_STATE,
+            android.Manifest.permission.PROCESS_OUTGOING_CALLS
+        )
+
+        requestPermissionLauncher.launch(permissions)
+    }
+
+    private fun registerCallReceiver() {
+        callStateReceiver = CallStateReceiver()
+        val filter = IntentFilter().apply {
+            addAction(TelephonyManager.ACTION_PHONE_STATE_CHANGED)
+            addAction(Intent.ACTION_NEW_OUTGOING_CALL)
+        }
+        registerReceiver(callStateReceiver, filter)
+    }
+
+    private fun registerCallStatusReceiver() {
+        val filter = IntentFilter().apply {
+            addAction("OUTGOING_CALL_STARTED")
+            addAction("CALL_CONNECTED")
+            addAction("CALL_NOT_ANSWERED")
+            addAction("OUTGOING_CALL_COMPLETED")
+            addAction("INCOMING_CALL_RINGING")
+            addAction("CALL_ANSWERED")
+            addAction("MISSED_CALL")
+            addAction("INCOMING_CALL_ENDED")
+        }
+
+        // FIX: Add explicit export behavior for Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(callStatusReceiver, filter, RECEIVER_EXPORTED)
+        } else {
+            registerReceiver(callStatusReceiver, filter)
+        }
+    }
+
+    private fun unregisterCallStatusReceiver() {
+        try {
+            unregisterReceiver(callStatusReceiver)
+        } catch (e: Exception) {
+            // Receiver was not registered
+        }
+    }
+
+    private fun updateUI(status: String, details: String) {
+        runOnUiThread {
+            statusTextView.text = "Status: $status"
+            detailsTextView.text = details
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+}

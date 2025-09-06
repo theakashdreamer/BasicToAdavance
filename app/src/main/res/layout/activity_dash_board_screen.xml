@@ -26,6 +26,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_add" />
 
+        <TextView
+            android:id="@+id/tvNetworkStatus"
+            android:layout_width="0dp"
+            android:text="NA"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:navigationIcon="@drawable/ic_add" />
+
         <TextClock
             android:id="@+id/Time_Current"
             android:layout_width="0dp"
@@ -36,7 +50,7 @@
             app:fontFamily="@font/regular"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNetworkStatus" />
 
 
         <ImageView
@@ -48,7 +62,7 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/Time_Current"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/tvNetworkStatus"
             app:srcCompat="@drawable/baseline_sync_24"
             tools:ignore="ContentDescription,ImageContrastCheck" />
 

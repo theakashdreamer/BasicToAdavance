@@ -10,23 +10,33 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.FirebaseFirestore
 import com.skysoftsolution.basictoadavance.R
 import com.skysoftsolution.basictoadavance.databinding.ActivityEventManageMentBinding
@@ -35,6 +45,7 @@ import com.skysoftsolution.basictoadavance.datasource.DataAccessObj
 import com.skysoftsolution.basictoadavance.eventManager.adapter.EventManagerAdapter
 import com.skysoftsolution.basictoadavance.eventManager.adapter.UpcomingEventManagerAdapter
 import com.skysoftsolution.basictoadavance.eventManager.entity.EventReminder
+import com.skysoftsolution.basictoadavance.eventManager.reminder.ReminderWorker
 import com.skysoftsolution.basictoadavance.eventManager.utils.ReminderUtils
 import com.skysoftsolution.basictoadavance.eventManager.viewModel.EventViewModel
 import com.skysoftsolution.basictoadavance.repository.MainRepository
@@ -48,6 +59,7 @@ import java.util.Calendar
 import java.util.Collections
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class EventManageMentActivity : AppCompatActivity(), AdapterClickAddSendPostion {
     private lateinit var binding: ActivityEventManageMentBinding
@@ -70,11 +82,16 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickAddSendPostion 
         if (getSupportActionBar() != null) {
             getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
         }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
         setupActionBar("Events", true)
         setupRecyclerViewUpcomingEvent()
         setupRecyclerView()
         setupViewModel()
-        fetchDistributorsFromFirebase()
+        //fetchDistributorsFromFirebase()
         setupFABActions()
         observeEventReminder()
     }
@@ -242,7 +259,7 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickAddSendPostion 
 
     private fun setupFABActions() {
         binding.btnAddClassroom.setOnClickListener {
-            showAddEventDialog()
+            addReminder()
         }
     }
 
@@ -296,6 +313,7 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickAddSendPostion 
             this.latitude = selectedLat
             this.longitude = selectedLng
         }
+
     }
 
     private fun showToast(message: String) {
@@ -365,33 +383,35 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickAddSendPostion 
         }
 
         // --- DATE & TIME PICKER ---
+        val pickedDate = Calendar.getInstance()
         dialogBinding.etDateTime.setOnClickListener {
-            val calendar = Calendar.getInstance()
+            val year = pickedDate.get(Calendar.YEAR)
+            val month = pickedDate.get(Calendar.MONTH)
+            val day = pickedDate.get(Calendar.DAY_OF_MONTH)
+            val hour = pickedDate.get(Calendar.HOUR_OF_DAY)
+            val minute = pickedDate.get(Calendar.MINUTE)
             DatePickerDialog(
                 this,
-                { _, year, month, day ->
+                DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
                     TimePickerDialog(
                         this,
-                        { _, hour, minute ->
-                            val formattedText = String.format(
-                                "%02d/%02d/%04d %02d:%02d",
-                                day,
-                                month + 1,
-                                year,
-                                hour,
-                                minute
+                        TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                            pickedDate.set(year, month, dayOfMonth, hourOfDay, minute)
+                            Log.d("Date And Time", "Picked Date and Time $pickedDate")
+                            dialogBinding.etDateTime.setText(
+                                getCurrentDateAndTime(pickedDate.timeInMillis)
                             )
-                            dialogBinding.etDateTime.setText(formattedText)
                         },
-                        calendar.get(Calendar.HOUR_OF_DAY),
-                        calendar.get(Calendar.MINUTE),
-                        true
+                        hour,
+                        minute,
+                        false
                     ).show()
                 },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
+                year,
+                month,
+                day
+            )
+                .show()
         }
 
         // --- SEARCH FUNCTIONALITY ---
@@ -420,25 +440,41 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickAddSendPostion 
                 selectedLatLng?.latitude,
                 selectedLatLng?.longitude
             )
-
+            val timeDelayinSeconds =
+                (pickedDate.timeInMillis / 1000L) - (Calendar.getInstance().timeInMillis / 1000L)
+            if (timeDelayinSeconds < 0) {
+                Toast.makeText(this, "Cant set reminders for past", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             if (event != null) {
                 // Save to Firestore
-                db.collection("events_for_training")
+         /*       db.collection("events_for_training")
                     .add(event)
                     .addOnSuccessListener {
                         Toast.makeText(this, "Event saved!", Toast.LENGTH_SHORT).show()
                     }
                     .addOnFailureListener { e ->
                         Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
+                    }*/
 
                 // Save to local DB
                 eventViewModel.insertEventReminder(event)
+                //Work Manager
+                createWorkRequest(
+                    event.title,
+                    event.speakerName,
+                    timeDelayinSeconds
+                )
                 alertDialog.dismiss()
             }
         }
 
         dialogBinding.mapViewDialog.onResume()
+    }
+
+    private fun getCurrentDateAndTime(timeInMillis: Long): String {
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        return sdf.format(Date(timeInMillis))
     }
 
     /**
@@ -476,4 +512,68 @@ class EventManageMentActivity : AppCompatActivity(), AdapterClickAddSendPostion 
         }
     }
 
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (!isGranted) {
+                if (Build.VERSION.SDK_INT >= 33) {
+                    if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
+                        showNotificationPermissionDialog()
+                    } else {
+                        showSettingsDialog()
+                    }
+                }
+            } else {
+                Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    private fun addReminder() {
+        if (Build.VERSION.SDK_INT >= 33 && !NotificationManagerCompat.from(this)
+                .areNotificationsEnabled()
+        ) {
+            showNotificationPermissionDialog()
+        } else {
+            showAddEventDialog()
+        }
+    }
+
+    private fun showSettingsDialog() {
+        MaterialAlertDialogBuilder(
+            this,
+            com.google.android.material.R.style.MaterialAlertDialog_Material3
+        )
+            .setTitle("Notification Permission")
+            .setMessage("Notification permission required to show notifications")
+            .setPositiveButton("OK") { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse("package:${this.applicationContext?.packageName}")
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun showNotificationPermissionDialog() {
+        MaterialAlertDialogBuilder(
+            this,
+            com.google.android.material.R.style.MaterialAlertDialog_Material3
+        )
+            .setTitle("Notification Permission")
+            .setMessage("Notification permission required to show notifications")
+            .setPositiveButton("OK") { _, _ ->
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun createWorkRequest(title: String, reminderType: String, delay: Long) {
+        val reminderWorkRequest = OneTimeWorkRequestBuilder<ReminderWorker>()
+            .setInitialDelay(delay, TimeUnit.SECONDS)
+            .setInputData(workDataOf("Title" to "Event: $reminderType", "Message" to title))
+            .build()
+        WorkManager.getInstance(this).enqueue(reminderWorkRequest)
+    }
 }

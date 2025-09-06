@@ -7,6 +7,9 @@ import java.util.Date
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import com.skysoftsolution.basictoadavance.networkmonitoring.NetworkMonitor
+import com.skysoftsolution.basictoadavance.networkmonitoring.NetworkMonitorII
+
 class App : Application() {
 
     companion object {
@@ -19,6 +22,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
+        NetworkMonitor.getInstance().init(this)
+
     }
 
     private fun createNotificationChannel() {

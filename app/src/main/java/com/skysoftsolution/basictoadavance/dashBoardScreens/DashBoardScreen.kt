@@ -1,5 +1,10 @@
 package com.skysoftsolution.basictoadavance.dashBoardScreens
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -21,8 +26,10 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -32,6 +39,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.firestore.FirebaseFirestore
 import com.skysoftsolution.basictoadavance.datasource.DataAccessObj
+import com.skysoftsolution.basictoadavance.networkmonitoring.NetworkMonitor
+import com.skysoftsolution.basictoadavance.networkmonitoring.NetworkMonitorII
+import com.skysoftsolution.basictoadavance.networkmonitoring.NetworkViewModel
 import com.skysoftsolution.basictoadavance.repository.MainRepository
 import com.skysoftsolution.basictoadavance.taskDetails.entity.AddDailyRoutine
 import com.skysoftsolution.basictoadavance.taskDetails.viewModel.AddTaskViewModel
@@ -53,6 +63,8 @@ class DashBoardScreen : AppCompatActivity() {
     private lateinit var dataAccessObj: DataAccessObj
     private lateinit var db: FirebaseFirestore
     private val CHANNEL_ID = "MotionAlert"
+    private lateinit var viewNetwoekModel: NetworkViewModel
+    private var waveAnimator: AnimatorSet? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashBoardScreenBinding.inflate(layoutInflater)
@@ -62,39 +74,20 @@ class DashBoardScreen : AppCompatActivity() {
                 .load(R.drawable.dashboardgif)  // Your GIF file in res/drawable
                 .into(binding.imageViewback)*/
         db = FirebaseFirestore.getInstance()
+
+
+        // ViewModel connects to NetworkMonitorII
+        viewNetwoekModel = ViewModelProvider(this)[NetworkViewModel::class.java]
+        viewNetwoekModel.getStatus().observe(this) { status ->
+            checkNetworkType(status)
+        }
+
         setupViewModel()
 
         DateAndTimeWork()
         viewModel.userList.observe(this@DashBoardScreen, Observer { userList ->
             setAdapterData(userList)
         })
-        createNotificationChannel()
-
-        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)!!
-
-        sensorListener = object : SensorEventListener {
-            override fun onSensorChanged(event: SensorEvent) {
-                val x = event.values[0]
-                val y = event.values[1]
-                val z = event.values[2]
-
-                val acceleration = Math.sqrt((x * x + y * y + z * z).toDouble())
-                if (acceleration > 15) {  // adjust sensitivity
-                    sendNotification()
-                }
-            }
-
-            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
-        }
-
-        sensorManager.registerListener(
-            sensorListener,
-            accelerometer,
-            SensorManager.SENSOR_DELAY_NORMAL
-        )
-
-
         val newUser1 = ModuleForUse(1, "Daily Routine ", R.drawable.daily_routine)
         viewModel.addModule(newUser1)
         val newUser = ModuleForUse(2, "Goals", R.drawable.goalsetting)
@@ -106,7 +99,7 @@ class DashBoardScreen : AppCompatActivity() {
         val newUser4 = ModuleForUse(5, "Event", R.drawable.goalsetting)
         viewModel.addModule(newUser4)
 
-        val newUser3 = ModuleForUse(4, "Calling", R.drawable.goalsetting)
+        val newUser3 = ModuleForUse(4, "Learning\n&\nProductivity", R.drawable.goalsetting)
         viewModel.addModule(newUser3)
         val newUser5 = ModuleForUse(6, "Voice Detector", R.drawable.goalsetting)
         viewModel.addModule(newUser5)
@@ -181,25 +174,31 @@ class DashBoardScreen : AppCompatActivity() {
             }
         )
     }
+
     private fun clickListeiner() {
         /*TODO Sync*/
         binding.imageView.setOnClickListener {
-          /*  refreshAllData()*/
+            /*  refreshAllData()*/
             showAccountBottomSheet(this@DashBoardScreen)
         }
     }
+
     fun showAccountBottomSheet(context: Context) {
         val dialog = BottomSheetDialog(context)
         val view = LayoutInflater.from(context).inflate(R.layout.custom_layout_switch_profile, null)
         val container = view.findViewById<LinearLayout>(R.id.accountList)
 
-        val usernames = listOf("the_akashdreamer", "dreamwithsakash", "the_statuspro", "technohomey")
-        val profilePics = listOf(R.drawable.plus_icon, R.drawable.ic_baseline_person_24,
-            R.drawable.sun_icon, R.drawable.plus_icon)
+        val usernames =
+            listOf("the_akashdreamer", "dreamwithsakash", "the_statuspro", "technohomey")
+        val profilePics = listOf(
+            R.drawable.plus_icon, R.drawable.ic_baseline_person_24,
+            R.drawable.sun_icon, R.drawable.plus_icon
+        )
         val selectedPosition = 0 // example
 
         usernames.forEachIndexed { index, username ->
-            val item = LayoutInflater.from(context).inflate(R.layout.item_account_row, container, false)
+            val item =
+                LayoutInflater.from(context).inflate(R.layout.item_account_row, container, false)
             val usernameView = item.findViewById<TextView>(R.id.username)
             val profileView = item.findViewById<ImageView>(R.id.profilePic)
             val checkmark = item.findViewById<ImageView>(R.id.checkmark)
@@ -268,4 +267,75 @@ class DashBoardScreen : AppCompatActivity() {
         super.onDestroy()
         sensorManager.unregisterListener(sensorListener)
     }
+
+    private fun waveAnimation(view: View) {
+        val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.05f, 0.95f, 1f)
+        val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.05f, 0.95f, 1f)
+        val rotation = ObjectAnimator.ofFloat(view, "rotation", -2f, 2f, -1f, 1f, 0f)
+        val alpha = ObjectAnimator.ofFloat(view, "alpha", 1f, 0.9f, 1f)
+
+        AnimatorSet().apply {
+            playTogether(scaleX, scaleY, rotation, alpha)
+            duration = 1200
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
+    }
+
+    private fun checkNetworkType(status: NetworkMonitor.Status) {
+        when (status.type) {
+            NetworkMonitor.Status.Type.AVAILABLE -> {
+                binding.tvNetworkStatus.text = "Network Available ✅"
+                stopWaveAnimation()
+            }
+
+            NetworkMonitor.Status.Type.UNAVAILABLE -> {
+                binding.tvNetworkStatus.text = "Network Unavailable ❌"
+                startWaveAnimation()
+            }
+
+            NetworkMonitor.Status.Type.LOSING -> {
+                binding.tvNetworkStatus.text =
+                    "Network Losing… will drop in ${status.maxMsToLive} ms ⚠️"
+                startWaveAnimation()
+            }
+
+            NetworkMonitor.Status.Type.LOST -> {
+                binding.tvNetworkStatus.text = "Network Lost ❌"
+                startWaveAnimation()
+            }
+        }
+    }
+
+    private fun startWaveAnimation() {
+        // Prevent multiple instances
+        if (waveAnimator?.isRunning == true) return
+
+        val scaleX = ObjectAnimator.ofFloat(binding.tvNetworkStatus, "scaleX", 1f, 1.2f, 1f)
+        val scaleY = ObjectAnimator.ofFloat(binding.tvNetworkStatus, "scaleY", 1f, 1.2f, 1f)
+        val alpha = ObjectAnimator.ofFloat(binding.tvNetworkStatus, "alpha", 1f, 0.6f, 1f)
+
+        waveAnimator = AnimatorSet().apply {
+            playTogether(scaleX, scaleY, alpha)
+            duration = 800
+            interpolator = AccelerateDecelerateInterpolator()
+            // 🔥 Repeat forever like fire/waves
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    // restart automatically
+                    start()
+                }
+            })
+            start()
+        }
+    }
+
+    private fun stopWaveAnimation() {
+        waveAnimator?.cancel()
+        binding.tvNetworkStatus.scaleX = 1f
+        binding.tvNetworkStatus.scaleY = 1f
+        binding.tvNetworkStatus.alpha = 1f
+        waveAnimator = null
+    }
+
 }

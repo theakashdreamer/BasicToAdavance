@@ -13,9 +13,12 @@ import com.skysoftsolution.basictoadavance.SensorActivityActivity
 import com.skysoftsolution.basictoadavance.callingModule.CallingDashBoardActivity
 import com.skysoftsolution.basictoadavance.dashBoardScreens.dashboardutils.entity.DashBoardModule
 import com.skysoftsolution.basictoadavance.eventManager.EventManageMentActivity
+import com.skysoftsolution.basictoadavance.eventManager.reminder.Reminder_Main_Activity
 import com.skysoftsolution.basictoadavance.goalModule.AlaramSetActivity
 import com.skysoftsolution.basictoadavance.goalModule.SetYourGoalActivity
 import com.skysoftsolution.basictoadavance.goalModule.TrackYourGoalActivity
+import com.skysoftsolution.basictoadavance.learningAndProductivity.Learning_And_Productivity_Activity
+import com.skysoftsolution.basictoadavance.newFaceWork.CaptureNewActivity
 import com.skysoftsolution.basictoadavance.taskDetails.AddTaskActivity
 import com.skysoftsolution.basictoadavance.teamModules.TeamMyActivity
 import com.skysoftsolution.basictoadavance.webRTC.WebRTCActivity
@@ -75,7 +78,7 @@ class CustomAdapterForDash(
                 }
                 "4" -> {
                     // Call TaskActivity when id is "1"
-                    val intent = Intent(context, CallingDashBoardActivity::class.java)
+                    val intent = Intent(context, Learning_And_Productivity_Activity::class.java)
                     context.startActivity(intent)
                 }
                 "5" -> {
@@ -85,8 +88,8 @@ class CustomAdapterForDash(
                 }
                 "6" -> {
                     // Call TaskActivity when id is "1"
-                    val intent = Intent(context, SensorActivityActivity::class.java)
-                   // val intent = Intent(context, CaptureNewActivity::class.java)
+                  //  val intent = Intent(context, Reminder_Main_Activity::class.java)
+                    val intent = Intent(context, CaptureNewActivity::class.java)
                     context.startActivity(intent)
                 }
                 "7" -> {
