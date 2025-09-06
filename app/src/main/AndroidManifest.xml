@@ -12,11 +12,12 @@
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -28,22 +29,17 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <uses-feature
         android:name="android.hardware.microphone"
         android:required="true" />
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.telephony"
         android:required="false" />
 
     <application
@@ -55,24 +51,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeSunrise"
         tools:targetApi="31">
-        <activity
-            android:name=".callObserver.CallObserverActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.DIAL" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".learningAndProductivity.Learning_And_Productivity_Activity"
-            android:exported="false" />
-        <activity
-            android:name=".documentViewer.DocumentViewerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".eventManager.reminder.Reminder_Main_Activity"
-            android:exported="false" />
         <activity
             android:name=".motiondetectorService.WarningActivity"
             android:exported="false" />
@@ -167,7 +145,6 @@
             </intent-filter>
         </receiver>
 
-
         <service
             android:name=".goalModule.reciever.AlarmService"
             android:exported="false"
@@ -175,7 +152,6 @@
         <service
             android:name=".motiondetectorServic.MotionDetectService"
             android:exported="false" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.skysoftsolution.basictoadavance.files"
@@ -188,28 +164,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAa904SpGHU82jbCBu-pDkzFy4AtwvxTc8" />
-        <service
-            android:name=".callObserver.service.CallObserverService"
-            android:enabled="true"
-            android:exported="false"
-            android:foregroundServiceType="phoneCall"
-            />
-
-        <!-- Add this receiver for Android 13+ compatibility -->
-        <receiver
-            android:name=".callObserver.broadcastReciver.CallStateReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
-            </intent-filter>
-        </receiver>
-
     </application>
 
 </manifest>
